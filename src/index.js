@@ -50,6 +50,24 @@ const visibilityFilter = (state = 'SHOW_ALL', action) => {
   }
 };
 
+const getVisibleTodos = (
+  todos,
+  filter
+) => {
+  switch (filter) {
+    case 'SHOW_ALL':
+      return todos;
+    case 'SHOW_COMPLETED':
+      return todos.filter(
+        t => t.completed
+      );
+    case 'SHOW_ACTIVE':
+      return todos.filter(
+        t => !t.completed
+      );
+  }
+};
+
 const todoApp = combineReducers({
   todos,
   visibilityFilter
@@ -59,7 +77,7 @@ const store = createStore(todoApp);
 
 
 const render = () => {
-  ReactDOM.render(<App todos={store.getState().todos} store={store} />, document.getElementById('root'));
+  ReactDOM.render(<App getVisibleTodos={getVisibleTodos} todos={store.getState().todos} visibilityFilter={store.getState().visibilityFilter} store={store} />, document.getElementById('root'));
 };
 
 store.subscribe(render);
