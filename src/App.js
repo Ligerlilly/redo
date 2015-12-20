@@ -2,38 +2,20 @@ import React from 'react';
 import {TodoList} from './TodoList';
 import {AddTodo} from './AddTodo';
 import {Footer} from './Footer';
+import VisibleTodoList from './VisibleTodoList'
 
-let nextTodoId = 0;
 
 export const App = ({
   todos,
   visibilityFilter,
   store,
-  getVisibleTodos
+  getVisibleTodos,
+  nextTodoId
 }) => {
   return (
     <div>
-      <AddTodo
-        onAddClick={text =>
-          store.dispatch({
-            type: 'ADD_TODO',
-            id: nextTodoId++,
-            text
-          })
-        }
-      />
-      <TodoList
-         todos={
-           getVisibleTodos(
-             todos,
-             visibilityFilter
-           )}
-        onTodoClick={id =>
-          store.dispatch({
-            type: 'TOGGLE_TODO',
-            id
-          })
-        } />
+      <AddTodo store={store} nextTodoId={nextTodoId} />
+      <VisibleTodoList store={store} getVisibleTodos={getVisibleTodos} />
       <Footer store={store} />
     </div>
   );
